@@ -35,18 +35,22 @@ extern "C" {
  */
 typedef struct avr_flash_t {
 	avr_io_t	io;
-
+	uint16_t *tmppage;
+	uint8_t *tmppage_used;
 	uint16_t	spm_pagesize;
 	uint8_t r_spm;
 	avr_regbit_t selfprgen;
 	avr_regbit_t pgers;		// page erase
 	avr_regbit_t pgwrt;		// page write
 	avr_regbit_t blbset;	// lock bit set
+	int has_rwwsre;
+	avr_regbit_t rwwsre;	// read while write section read enable
 
 	avr_int_vector_t flash;	// Interrupt vector
 } avr_flash_t;
 
 void avr_flash_init(avr_t * avr, avr_flash_t * p);
+void avr_flash_init_ext(avr_t * avr, avr_flash_t * p, avr_regbit_t rwwsre);
 
 
 #define AVR_IOCTL_FLASH_SPM		AVR_IOCTL_DEF('f','s','p','m')
