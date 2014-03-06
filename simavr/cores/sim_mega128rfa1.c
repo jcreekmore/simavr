@@ -522,9 +522,10 @@ avr_kind_t mega128rfa1 = {
 void m128rfa1_init(struct avr_t * avr)
 {
 	struct mcu_t * mcu = (struct mcu_t*)avr;
+	avr_regbit_t rwwsre = AVR_IO_REGBIT(SPMCSR, RWWSRE);
 
 	avr_eeprom_init(avr, &mcu->eeprom);
-	avr_flash_init(avr, &mcu->selfprog);
+	avr_flash_init_ext(avr, &mcu->selfprog, rwwsre);
 	avr_extint_init(avr, &mcu->extint);
 	avr_watchdog_init(avr, &mcu->watchdog);
 	avr_ioport_init(avr, &mcu->porta);
